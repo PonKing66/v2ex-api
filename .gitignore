@@ -1,0 +1,11 @@
+token.txt
+.vscode
+debug
+.idea
+*.iml
+*.ipr
+*.iws
+*.sublime-project
+*.sublime-workspace
+*.test
+.DS_Store
