@@ -1,12 +1,13 @@
 package v2exapi
 
 import (
+	"encoding/json"
 	"strconv"
 )
 
 var prefix = "https://www.v2ex.com/api/v2/"
 
-func (c *Client) Notifications(page int) ([]byte, error) {
+func (c *Client) Notifications(page int) (*Notifications, error) {
 	body, err := c.request(prefix,
 		"notifications",
 		"GET",
@@ -17,8 +18,9 @@ func (c *Client) Notifications(page int) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	return body, nil
+	var res *Notifications
+	err = json.Unmarshal(body, &res)
+	return res, err
 }
 
 func (c *Client) DeleteNotifications(notificationId string) ([]byte, error) {
@@ -34,7 +36,7 @@ func (c *Client) DeleteNotifications(notificationId string) ([]byte, error) {
 	return body, nil
 }
 
-func (c *Client) Member() ([]byte, error) {
+func (c *Client) Member() (*Member, error) {
 	body, err := c.request(prefix,
 		"member",
 		"GET",
@@ -44,10 +46,13 @@ func (c *Client) Member() ([]byte, error) {
 		return nil, err
 	}
 
-	return body, nil
+	var res *Member
+	err = json.Unmarshal(body, &res)
+
+	return res, nil
 }
 
-func (c *Client) Token() ([]byte, error) {
+func (c *Client) Token() (*Token, error) {
 	body, err := c.request(prefix,
 		"token",
 		"GET",
@@ -56,11 +61,13 @@ func (c *Client) Token() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	var res *Token
+	err = json.Unmarshal(body, &res)
 
-	return body, nil
+	return res, nil
 }
 
-func (c *Client) NodesNodeName(nodeName string) ([]byte, error) {
+func (c *Client) NodesNodeName(nodeName string) (*NodesNodeName, error) {
 	body, err := c.request(prefix,
 		"nodes/"+nodeName,
 		"GET",
@@ -69,11 +76,13 @@ func (c *Client) NodesNodeName(nodeName string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	var res *NodesNodeName
+	err = json.Unmarshal(body, &res)
 
-	return body, nil
+	return res, nil
 }
 
-func (c *Client) NodesNodeNameTopics(nodeName string, page int) ([]byte, error) {
+func (c *Client) NodesNodeNameTopics(nodeName string, page int) (*NodesNodeNameTopics, error) {
 	body, err := c.request(prefix,
 		"nodes/"+nodeName+"/topics",
 		"GET",
@@ -85,10 +94,13 @@ func (c *Client) NodesNodeNameTopics(nodeName string, page int) ([]byte, error) 
 		return nil, err
 	}
 
-	return body, nil
+	var res *NodesNodeNameTopics
+	err = json.Unmarshal(body, &res)
+
+	return res, nil
 }
 
-func (c *Client) Topics(topicId string) ([]byte, error) {
+func (c *Client) Topics(topicId string) (*Topics, error) {
 	body, err := c.request(prefix,
 		"topics/"+topicId,
 		"GET",
@@ -98,10 +110,13 @@ func (c *Client) Topics(topicId string) ([]byte, error) {
 		return nil, err
 	}
 
-	return body, nil
+	var res *Topics
+	err = json.Unmarshal(body, &res)
+
+	return res, nil
 }
 
-func (c *Client) TopicsReplies(topicId string, page int) ([]byte, error) {
+func (c *Client) TopicsReplies(topicId string, page int) (*TopicsReplies, error) {
 	body, err := c.request(prefix,
 		"topics/"+topicId+"/replies",
 		"GET",
@@ -112,5 +127,8 @@ func (c *Client) TopicsReplies(topicId string, page int) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	return body, nil
+	var res *TopicsReplies
+	err = json.Unmarshal(body, &res)
+
+	return res, nil
 }

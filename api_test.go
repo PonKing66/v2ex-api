@@ -1,7 +1,6 @@
 package v2exapi
 
 import (
-	"github.com/tidwall/gjson"
 	"net/http"
 	"net/url"
 	"os"
@@ -27,55 +26,55 @@ var client = &http.Client{Transport: transport}
 var DefaultSetting = &ClientSetting{
 	Token:     f(),
 	Client:    client,
-	DebugMode: true,
+	DebugMode: false,
 }
 
 func TestNotifications(t *testing.T) {
 	v := newClient(DefaultSetting)
 	json, _ := v.Notifications(1)
-	t.Logf("Json:%v", gjson.ParseBytes(json).String())
+	t.Logf("Json:%v", json)
 }
 
 func TestDeleteNotifications(t *testing.T) {
 	v := newClient(DefaultSetting)
 	json, _ := v.DeleteNotifications("test123123")
-	t.Logf("Json:%v", gjson.ParseBytes(json).String())
+	t.Logf("Json:%v", json)
 }
 
 func TestMember(t *testing.T) {
 	v := newClient(DefaultSetting)
-	json, _ := v.Member()
-	t.Logf("Json:%v", gjson.ParseBytes(json).String())
+	res, _ := v.Member()
+	t.Logf("Json:%v", res)
 }
 
 func TestToken(t *testing.T) {
 	v := newClient(DefaultSetting)
 	json, _ := v.Token()
-	t.Logf("Json:%v", gjson.ParseBytes(json).String())
+	t.Logf("Json:%v", *json)
 }
 
 func TestNodesNodeName(t *testing.T) {
 	v := newClient(DefaultSetting)
 	json, _ := v.NodesNodeName("jobs")
-	t.Logf("Json:%v", gjson.ParseBytes(json).String())
+	t.Logf("Json:%v", *json)
 }
 
 func TestNodesNodeNameTopics(t *testing.T) {
 	v := newClient(DefaultSetting)
 	json, _ := v.NodesNodeNameTopics("jobs", 2)
-	t.Logf("Json:%v", gjson.ParseBytes(json).String())
+	t.Logf("Json:%v", *json)
 }
 
 func TestTopics(t *testing.T) {
 	v := newClient(DefaultSetting)
 	json, _ := v.Topics("970564")
-	t.Logf("Json:%v", gjson.ParseBytes(json).String())
+	t.Logf("Json:%v", *json)
 }
 
 func TestTopicsReplies(t *testing.T) {
 	v := newClient(DefaultSetting)
 	json, _ := v.TopicsReplies("970564", 1)
-	t.Logf("Json:%v", gjson.ParseBytes(json).String())
+	t.Logf("Json:%v", *json)
 }
 
 func unicode(raw []byte) []byte {
